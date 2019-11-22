@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+CLIENT_CN=$1
+
+echo "
+client
+nobind
+dev tun
+remote-cert-tls server
+
+remote {{ HOST }} 1194 udp
+
+<key>
+$(cat /etc/openvpn/pki/private/${CLIENT_CN}.key)
+</key>
+
+<cert>
+$(openssl x509 -in /etc/openvpn/pki/issued/${CLIENT_CN}.crt)
+</cert>
+
+<ca>
+$(cat /etc/openvpn/pki/ca.crt)
+</ca>
+
+<tls-auth>
+$(cat /etc/openvpn/pki/ta.key)
+</tls-auth>
+
+key-direction 1
+"
+
+

@@ -1,0 +1,35 @@
+server {{ VPN_SUBNET }} {{ VPN_SUBNET_MASK }}
+proto udp
+port 1194
+dev tun0
+
+status /tmp/openvpn-status.log
+log /tmp/openvpn.log
+verb 4
+
+key /etc/openvpn/pki/private/{{ HOST }}.key
+ca /etc/openvpn/pki/ca.crt
+cert /etc/openvpn/pki/issued/{{ HOST }}.crt
+dh /etc/openvpn/pki/dh.pem
+tls-auth /etc/openvpn/pki/ta.key
+
+user nobody
+group nogroup
+
+key-direction 0
+keepalive 10 60
+persist-key
+persist-tun
+
+comp-lzo no
+push "comp-lzo no"
+
+route {{ VPN_SUBNET }} {{ VPN_SUBNET_MASK }}
+push "route {{ VPN_SUBNET }} {{ VPN_SUBNET_MASK }}"
+
+
+client-config-dir ccd
+client-to-client
+route {{ EXPOSED_PRIVATE_SUBNET }} {{ EXPOSED_PRIVATE_SUBNET_MASK }}
+push "route {{ EXPOSED_PRIVATE_SUBNET }} {{ EXPOSED_PRIVATE_SUBNET_MASK }}"
+
