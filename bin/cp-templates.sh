@@ -12,6 +12,6 @@ docker run -v ${OVPN_DATA}:/etc/openvpn --log-driver=none --rm -it kylemanna/ope
 docker run -v ${OVPN_DATA}:/etc/openvpn --name ${HELPER_NAME} --log-driver=none kylemanna/openvpn true
 docker cp tmp/openvpn.conf ${HELPER_NAME}:/etc/openvpn/openvpn.conf
 docker cp tmp/client.ovpn ${HELPER_NAME}:/etc/openvpn/client.ovpn
-docker cp tmp/gateway-client-ccd ${HELPER_NAME}:/etc/openvpn/${GATEWAY_CLIENT_CN}
+docker cp tmp/gateway-client-ccd ${HELPER_NAME}:/etc/openvpn/ccd/${GATEWAY_CLIENT_CN}
 docker cp tmp/get-client.sh ${HELPER_NAME}:/etc/openvpn/bin/get-client
 docker rm ${HELPER_NAME}
